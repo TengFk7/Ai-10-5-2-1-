@@ -1,0 +1,20 @@
+# Thai Coin Detection - Merged Dataset Configuration
+# Sources:
+#   - Roboflow coin-thai v9 (data-uo5dw)
+#   - Roboflow thai-coins-model v4 (kittikun)
+# For YOLOv8 Training
+
+path: ../merged-dataset    # merged dataset directory
+train: images/train        # train images
+val: images/val            # validation images
+test: images/test          # test images
+
+# Unified Classes (4)
+names:
+  0: 1-baht
+  1: 2-baht
+  2: 5-baht
+  3: 10-baht
+
+# Number of classes
+nc: 4

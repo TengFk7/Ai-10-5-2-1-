@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪙 Thai Coin Detection - AI ตรวจจับเหรียญไทย</title>
+    <meta name="description" content="ระบบ AI ตรวจจับเหรียญไทยด้วย YOLOv8 - ตรวจจับเหรียญ 1, 2, 5, 10 บาท แบบ Real-time">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="app-header">
+        <div class="header-content">
+            <div class="logo-group">
+                <div class="logo-icon">🪙</div>
+                <div>
+                    <h1>Thai Coin Detector</h1>
+                    <p class="subtitle">AI ตรวจจับเหรียญไทย • YOLOv8</p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <span id="badge-status" class="badge badge-offline">Offline</span>
+                {% if demo_mode %}
+                <span class="badge badge-demo">Demo Mode</span>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="app-main">
+        <!-- Camera Section -->
+        <section class="camera-section">
+            <div class="camera-wrapper">
+                <video id="camera-feed" autoplay playsinline muted></video>
+                <canvas id="detection-canvas"></canvas>
+                
+                <!-- Overlay: Total -->
+                <div id="total-overlay" class="total-overlay hidden">
+                    <div class="total-value" id="total-value">0 ฿</div>
+                    <div class="total-count" id="total-count">0 เหรียญ</div>
+                </div>
+
+                <!-- Camera placeholder -->
+                <div id="camera-placeholder" class="camera-placeholder">
+                    <div class="placeholder-icon">📷</div>
+                    <p>กดปุ่มด้านล่างเพื่อเปิดกล้อง</p>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="btn-camera" class="btn btn-primary" onclick="toggleCamera()">
+                    <span class="btn-icon">📷</span>
+                    <span id="btn-camera-text">เปิดกล้อง</span>
+                </button>
+                <button id="btn-detect" class="btn btn-accent" onclick="captureAndDetect()" disabled>
+                    <span class="btn-icon">🔍</span>
+                    <span>ตรวจจับ</span>
+                </button>
+                <button id="btn-auto" class="btn btn-secondary" onclick="toggleAutoDetect()" disabled>
+                    <span class="btn-icon">🔄</span>
+                    <span id="btn-auto-text">Auto: Off</span>
+                </button>
+                <select id="camera-select" class="camera-select" onchange="switchCamera()">
+                    <option value="">เลือกกล้อง</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <!-- Summary Card -->
+            <div class="card summary-card" id="summary-card">
+                <h2 class="card-title">💰 สรุปผล</h2>
+                <div class="summary-grid">
+                    <div class="summary-item total-money">
+                        <span class="summary-label">มูลค่ารวม</span>
+                        <span class="summary-value" id="summary-total">0</span>
+                        <span class="summary-unit">บาท</span>
+                    </div>
+                    <div class="summary-item total-coins">
+                        <span class="summary-label">จำนวนเหรียญ</span>
+                        <span class="summary-value" id="summary-coins">0</span>
+                        <span class="summary-unit">เหรียญ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coin Breakdown -->
+            <div class="card breakdown-card" id="breakdown-card">
+                <h2 class="card-title">🪙 รายละเอียด</h2>
+                <div id="coin-breakdown" class="coin-breakdown">
+                    <div class="empty-state">
+                        <p>ยังไม่มีผลการตรวจจับ</p>
+                        <p class="hint">เปิดกล้องแล้วกด "ตรวจจับ"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detection Log -->
+            <div class="card log-card">
+                <h2 class="card-title">📋 ประวัติ</h2>
+                <div id="detection-log" class="detection-log">
+                    <div class="empty-state">
+                        <p>ยังไม่มีประวัติ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FPS Counter -->
+    <div id="fps-counter" class="fps-counter hidden">FPS: --</div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

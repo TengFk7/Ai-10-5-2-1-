@@ -1,0 +1,9 @@
+# Thai Coin Detection - Dependencies
+flask==3.1.1
+flask-cors==5.0.1
+ultralytics==8.3.145
+opencv-python==4.11.0.86
+numpy==2.2.5
+Pillow==11.2.1
+roboflow
+pyyaml
